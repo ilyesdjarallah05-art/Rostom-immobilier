@@ -1,32 +1,46 @@
 # Rostom AI Chat Integration
 
-This project now includes a floating AI assistant in the bottom-right corner of every public page.
+This project includes a floating AI assistant in the bottom-right corner of every public page.
 
-## What was added
+## Current version
+
+The previous provider was **Puter.js**. It was removed because it can ask visitors to sign up or log in.
+
+The widget now uses **Pollinations.ai text API** directly from the browser, so there is:
+
+- no Puter.js script,
+- no visitor login popup,
+- no API key inside the website,
+- no signup step for normal visitors,
+- automatic local fallback if the free AI endpoint is busy, blocked, rate-limited, or offline.
+
+## What visitors see
 
 - A floating round **AI** button at the bottom-right.
-- A popup text bubble saying **“Can I help you?”**.
+- A popup bubble saying **“Can I help you?”**.
 - A chat panel where visitors can ask about buying, renting, budget, location, property type, and available listings.
-- Real AI replies through **Puter.js**.
-- No API key is stored in the website code.
-- A safe fallback: if the external AI provider is unavailable, the widget still searches the website listings locally and returns matching property cards.
+- Property cards linked to the matching listings on the website.
 
-## Why no API key is inside the frontend
+## Important notes
 
-Putting OpenAI/OpenRouter/Hugging Face API keys directly in HTML or JavaScript exposes the key to every visitor. Anyone could copy it from DevTools and use your account.
+This is still a static HTML/CSS/JS website. Any AI service called directly from the browser can have public/free limits. The widget is designed safely:
 
-For a totally free static website, the safest no-backend option is Puter.js because it works from frontend JavaScript without adding your own API key.
+1. It asks the AI to answer only using the website listings.
+2. It does not expose any private API key.
+3. If the AI endpoint fails, it continues working with local matching from the site listings.
+
+For production with higher limits, use a backend or Supabase Edge Function with your own private API key. Do not put secret API keys in frontend JavaScript.
 
 ## Files changed
 
 - `script.js`
-  - Added the Puter.js loader.
-  - Added real AI prompt generation for Rostom Immobilier.
-  - Kept listing-based property matching so the AI does not invent unavailable properties.
-  - Added fallback local answers.
+  - Removed Puter.js loading.
+  - Added direct Pollinations.ai call.
+  - Kept the local listing matcher and fallback.
+  - Updated the visitor note so it clearly says no visitor sign-up is needed.
 
 - `style.css`
-  - Added the small “AI is writing” animation.
+  - Keeps the existing floating chat UI and typing animation.
 
 ## How to test
 
@@ -56,6 +70,4 @@ or:
 اريد شقة للكراء في باتنة
 ```
 
-## Notes
-
-The AI provider is loaded only when the visitor sends a message. This keeps the website lighter on first load.
+If the free AI endpoint is unavailable, the assistant will still return matching properties from the website.

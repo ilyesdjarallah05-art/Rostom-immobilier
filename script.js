@@ -98,7 +98,7 @@ Object.assign(EXTRA_TRANSLATIONS.en, {
   'ai.clear':'Clear',
   'ai.results':'I found these options from our website:',
   'ai.noResults':'I did not find a strong match inside the current website listings. Try adding the city, budget, property type or number of rooms.',
-  'ai.onlySite':'Powered by free no-key AI. Property suggestions stay based on this website’s listings.'
+  'ai.onlySite':'No visitor sign-up needed. Property suggestions stay based on this website’s listings.'
 });
 Object.assign(EXTRA_TRANSLATIONS.fr, {
   'home.latest.kicker':'Dernières annonces',
@@ -124,7 +124,7 @@ Object.assign(EXTRA_TRANSLATIONS.fr, {
   'ai.clear':'Effacer',
   'ai.results':'J’ai trouvé ces options sur notre site :',
   'ai.noResults':'Je n’ai pas trouvé de correspondance forte dans les annonces actuelles. Ajoutez la ville, le budget, le type de bien ou le nombre de pièces.',
-  'ai.onlySite':'Propulsé par une IA gratuite sans clé API. Les suggestions restent basées sur les annonces du site.'
+  'ai.onlySite':'Aucune inscription visiteur n’est nécessaire. Les suggestions restent basées sur les annonces du site.'
 });
 Object.assign(EXTRA_TRANSLATIONS.ar, {
   'home.latest.kicker':'أحدث العقارات',
@@ -150,7 +150,7 @@ Object.assign(EXTRA_TRANSLATIONS.ar, {
   'ai.clear':'مسح',
   'ai.results':'وجدت لك هذه الخيارات من موقعنا:',
   'ai.noResults':'لم أجد تطابقًا قويًا داخل العقارات الحالية. أضف المدينة، الميزانية، نوع العقار أو عدد الغرف.',
-  'ai.onlySite':'مدعوم بذكاء اصطناعي مجاني بدون مفتاح API. اقتراحات العقارات تبقى مبنية على إعلانات الموقع.'
+  'ai.onlySite':'لا يحتاج الزائر إلى تسجيل الدخول. اقتراحات العقارات تبقى مبنية على إعلانات الموقع.'
 });
 
 function extraText(key){
@@ -1209,30 +1209,14 @@ function aiMiniResultCard(p){
     <span><strong>${safeText(p.title || 'Property')}</strong><small>${propertyLocation(p)}</small>${price ? `<b>${price}</b>` : ''}</span>
   </a>`;
 }
-const AI_PROVIDER_NAME = 'Puter.js';
-const AI_MODEL = 'gpt-5-nano';
-const AI_CDN = 'https://js.puter.com/v2/';
-let AI_SCRIPT_PROMISE = null;
-function aiLoadProvider(){
-  if(window.puter?.ai?.chat) return Promise.resolve(window.puter);
-  if(AI_SCRIPT_PROMISE) return AI_SCRIPT_PROMISE;
-  AI_SCRIPT_PROMISE = new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[data-rostom-ai-provider="puter"]');
-    if(existing){
-      existing.addEventListener('load', () => resolve(window.puter), { once:true });
-      existing.addEventListener('error', () => reject(new Error('AI provider failed to load')), { once:true });
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = AI_CDN;
-    script.async = true;
-    script.defer = true;
-    script.dataset.rostomAiProvider = 'puter';
-    script.onload = () => window.puter?.ai?.chat ? resolve(window.puter) : reject(new Error('AI provider unavailable'));
-    script.onerror = () => reject(new Error('AI provider failed to load'));
-    document.head.appendChild(script);
-  });
-  return AI_SCRIPT_PROMISE;
+const AI_PROVIDER_NAME = 'Pollinations.ai';
+const AI_MODEL = 'openai';
+const AI_ENDPOINT = 'https://text.pollinations.ai/openai?referrer=rostom-immobilier';
+const AI_TIMEOUT_MS = 14000;
+function aiFetchWithTimeout(url, options = {}, timeout = AI_TIMEOUT_MS){
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
 }
 function aiFormatListingForPrompt(p, index){
   const price = p.price ? `${formatPrice(p.price)} ${p.currency || 'DZD'}` : 'price not listed';
@@ -1268,19 +1252,32 @@ function aiExtractProviderText(response){
   if(typeof response === 'string') return response;
   if(response?.text) return response.text;
   if(response?.content && typeof response.content === 'string') return response.content;
+  const choiceContent = response?.choices?.[0]?.message?.content || response?.choices?.[0]?.text;
+  if(typeof choiceContent === 'string') return choiceContent;
+  if(Array.isArray(choiceContent)) return choiceContent.map(part => part?.text || part?.content || '').join(' ').trim();
   const content = response?.message?.content;
   if(typeof content === 'string') return content;
   if(Array.isArray(content)) return content.map(part => part?.text || part?.content || '').join(' ').trim();
   return '';
 }
 async function aiAskProvider(query, items){
-  const puter = await aiLoadProvider();
-  const response = await puter.ai.chat(aiBuildPrompt(query, items), {
-    model: AI_MODEL,
-    temperature: 0.35,
-    max_tokens: 360
+  const response = await aiFetchWithTimeout(AI_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: AI_MODEL,
+      messages: [
+        { role: 'system', content: aiBuildPrompt('', items).split('Visitor message:')[0].trim() },
+        { role: 'user', content: aiBuildPrompt(query, items) }
+      ],
+      temperature: 0.35,
+      max_tokens: 360,
+      stream: false
+    })
   });
-  const text = clean(aiExtractProviderText(response));
+  const data = await response.json().catch(async () => ({ text: await response.text().catch(() => '') }));
+  if(!response.ok) throw new Error(data?.error?.message || data?.message || `${AI_PROVIDER_NAME} error ${response.status}`);
+  const text = clean(aiExtractProviderText(data));
   if(!text) throw new Error('Empty AI response');
   return text;
 }
