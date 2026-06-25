@@ -177,7 +177,7 @@ function normalizeTourRooms(p){
     hotspots: normalizeHotspots(r.hotspots)
   })).filter(r=>r.image);
 }
-function hasVirtualTour(p){ return Boolean(clean(p?.virtualTourUrl) || normalizeTourRooms(p).length || p?.hasVirtualTour); }
+function hasVirtualTour(p){ return Boolean(clean(p?.virtualTourUrl) || normalizeTourRooms(p).length); }
 function roomNamesFromText(text){ return clean(text).split(/\n|,/).map(clean).filter(Boolean); }
 function fileToDataUrl(file){ return new Promise((resolve,reject)=>{ const reader = new FileReader(); reader.onload=()=>resolve(reader.result); reader.onerror=reject; reader.readAsDataURL(file); }); }
 async function filesToUrls(files, folder){

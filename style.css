@@ -317,3 +317,78 @@ button.menu-btn,
     line-height:1 !important;
   }
 }
+
+/* v12 — hard fix for mobile listing badges and false 360 layout stretch */
+.property-card .prop-media > .tour-pill,
+.property-card .tour-pill{
+  position:absolute !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  inline-size:auto !important;
+  block-size:auto !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:calc(100% - 32px) !important;
+  left:16px !important;
+  top:56px !important;
+  right:auto !important;
+  bottom:auto !important;
+  padding:7px 11px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.94) !important;
+  color:#111 !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  box-shadow:0 10px 22px rgba(0,0,0,.10) !important;
+  font-size:.60rem !important;
+  font-weight:850 !important;
+  line-height:1 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  text-align:center !important;
+  white-space:nowrap !important;
+  writing-mode:horizontal-tb !important;
+  text-orientation:mixed !important;
+  transform:none !important;
+  overflow:hidden !important;
+  z-index:5 !important;
+}
+.property-card .prop-media > .explore-dot,
+.property-card .explore-dot{
+  position:absolute !important;
+  right:16px !important;
+  bottom:16px !important;
+  left:auto !important;
+  top:auto !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:108px !important;
+  padding:10px 13px !important;
+  border-radius:999px !important;
+  line-height:1.05 !important;
+  white-space:nowrap !important;
+  z-index:5 !important;
+}
+@media(max-width:760px){
+  .property-card .prop-media > .tour-pill,
+  .property-card .tour-pill{
+    left:14px !important;
+    top:50px !important;
+    padding:7px 10px !important;
+    font-size:.58rem !important;
+  }
+  .property-card .prop-media > .explore-dot,
+  .property-card .explore-dot{
+    right:14px !important;
+    bottom:14px !important;
+    padding:10px 12px !important;
+    font-size:.58rem !important;
+  }
+}

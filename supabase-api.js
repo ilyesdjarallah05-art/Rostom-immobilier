@@ -48,11 +48,52 @@
 
   const SESSION_KEY = 'rostomSupabaseSessionV1';
   function getSession(){ try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)) || null; } catch { return null; } }
-  function setSession(session){ sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)); }
+  function sessionExpiresAt(session){ return Number(session?.expires_at || 0); }
+  function sessionIsExpired(session, skewSeconds=60){
+    const exp = sessionExpiresAt(session);
+    return Boolean(exp && exp <= Math.floor(Date.now() / 1000) + skewSeconds);
+  }
+  function setSession(session){
+    if(!session) return clearSession();
+    const previous = getSession() || {};
+    const next = { ...previous, ...session };
+    if(session.expires_in && !session.expires_at){
+      next.expires_at = Math.floor(Date.now() / 1000) + Number(session.expires_in);
+    }
+    if(!next.refresh_token && previous.refresh_token) next.refresh_token = previous.refresh_token;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(next));
+  }
   function clearSession(){ sessionStorage.removeItem(SESSION_KEY); }
-  function authToken(){ return getSession()?.access_token || anonKey; }
-  function headers(extra={}){
-    return { apikey: anonKey, Authorization: `Bearer ${authToken()}`, 'Content-Type': 'application/json', ...extra };
+  async function refreshSession(){
+    const current = getSession();
+    if(!current?.refresh_token){ clearSession(); return false; }
+    try{
+      const res = await fetch(authUrl('token?grant_type=refresh_token'), {
+        method: 'POST',
+        headers: { apikey: anonKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: current.refresh_token })
+      });
+      const data = await res.json().catch(()=>null);
+      if(!res.ok || !data?.access_token){ clearSession(); return false; }
+      setSession({ ...data, refresh_token: data.refresh_token || current.refresh_token });
+      return true;
+    }catch(err){
+      console.warn('Supabase session refresh failed:', err);
+      return false;
+    }
+  }
+  async function authToken(options={}){
+    let session = getSession();
+    if(session?.access_token && sessionIsExpired(session)){
+      await refreshSession();
+      session = getSession();
+    }
+    if(options.requireAuth && !session?.access_token) throw new Error('Admin login required. Please sign in again.');
+    return session?.access_token || anonKey;
+  }
+  async function headers(extra={}, options={}){
+    const token = await authToken(options);
+    return { apikey: anonKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...extra };
   }
   function normalizeHotspots(value){
     if(!Array.isArray(value)) return [];
@@ -96,7 +137,7 @@
       heroFeatured: Boolean(row.hero_featured),
       heroOrder: row.hero_order ?? '',
       isPublished: row.is_published !== false,
-      hasVirtualTour: Boolean(row.has_virtual_tour || row.virtual_tour_url || rooms.length),
+      hasVirtualTour: Boolean(row.virtual_tour_url || rooms.length),
       virtualTourType: row.virtual_tour_type || (rooms.length ? 'pannellum' : 'embed'),
       virtualTourUrl: row.virtual_tour_url || '',
       virtualTourRooms: rooms,
@@ -154,20 +195,50 @@
     if(enabled && token){ try { await fetch(authUrl('logout'), { method:'POST', headers:{ apikey: anonKey, Authorization:`Bearer ${token}` } }); } catch {} }
     clearSession();
   }
-  function isSignedIn(){ return Boolean(getSession()?.access_token); }
+  function isSignedIn(){
+    const session = getSession();
+    return Boolean(session?.access_token && (!sessionIsExpired(session) || session.refresh_token));
+  }
 
+  async function readResponse(res){
+    const text = await res.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+    return { text, data };
+  }
   async function request(path, options={}){
     if(!enabled) throw new Error('Supabase is not configured.');
     const keyProblem = keyLooksWrong(); if(keyProblem) throw new Error(keyProblem);
-    const res = await fetch(restUrl(path), { ...options, headers: headers(options.headers || {}) });
-    const text = await res.text();
-    let data = null; try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+    const requireAuth = Boolean(options.requireAuth);
+    const method = String(options.method || 'GET').toUpperCase();
+    const doFetch = async () => fetch(restUrl(path), { ...options, headers: await headers(options.headers || {}, { requireAuth }) });
+    let res = await doFetch();
+    let parsed = await readResponse(res);
+
+    // An old admin tab can keep an expired JWT in sessionStorage. Retry once with
+    // a refreshed token; for public GET requests, retry with the anon key after
+    // clearing a bad session so listings do not disappear.
+    if(res.status === 401){
+      const hadRefresh = Boolean(getSession()?.refresh_token);
+      const refreshed = hadRefresh ? await refreshSession() : false;
+      if(refreshed){
+        res = await doFetch();
+        parsed = await readResponse(res);
+      }else if(!requireAuth && method === 'GET'){
+        clearSession();
+        res = await doFetch();
+        parsed = await readResponse(res);
+      }
+    }
+
     if(!res.ok){
+      const data = parsed.data;
       let msg = data?.message || data?.hint || data?.details || `Supabase error ${res.status}`;
       if(res.status === 401 && /invalid api key/i.test(msg)) msg = 'Invalid Supabase API key. Check supabase-config.js: use Project Settings > API Keys > anon public / publishable key, not service_role and not a shortened key.';
+      if(res.status === 401 && /jwt|token|expired/i.test(msg)) msg = 'Admin session expired. Please sign in again.';
       throw new Error(msg);
     }
-    return data;
+    return parsed.data;
   }
   const SUMMARY_SELECT = [
     'id','title','category','status','wilaya','commune','address','price','currency',
@@ -197,15 +268,15 @@
     return rows?.[0] ? toCamel(rows[0]) : null;
   }
   async function insertProperty(prop){
-    const rows = await request('properties', { method: 'POST', headers: { Prefer: 'return=representation' }, body: JSON.stringify(toDb(prop)) });
+    const rows = await request('properties', { requireAuth: true, method: 'POST', headers: { Prefer: 'return=representation' }, body: JSON.stringify(toDb(prop)) });
     return rows?.[0] ? toCamel(rows[0]) : prop;
   }
   async function updateProperty(id, prop){
-    const rows = await request(`properties?id=eq.${encodeURIComponent(id)}`, { method: 'PATCH', headers: { Prefer: 'return=representation' }, body: JSON.stringify(toDb(prop)) });
+    const rows = await request(`properties?id=eq.${encodeURIComponent(id)}`, { requireAuth: true, method: 'PATCH', headers: { Prefer: 'return=representation' }, body: JSON.stringify(toDb(prop)) });
     return rows?.[0] ? toCamel(rows[0]) : { ...prop, id };
   }
   async function deleteProperty(id){
-    await request(`properties?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
+    await request(`properties?id=eq.${encodeURIComponent(id)}`, { requireAuth: true, method: 'DELETE', headers: { Prefer: 'return=minimal' } });
     return true;
   }
 
@@ -222,7 +293,7 @@
     try{
       res = await fetch(storageUrl(`object/${encodeURIComponent(bucket)}/${encodePath(path)}`), {
         method: 'POST',
-        headers: { apikey: anonKey, Authorization: `Bearer ${authToken()}`, 'Content-Type': file.type || 'application/octet-stream', 'Cache-Control': '3600' },
+        headers: { ...(await headers({}, { requireAuth: true })), 'Content-Type': file.type || 'application/octet-stream', 'Cache-Control': '3600' },
         body: file
       });
     }catch(err){
@@ -239,5 +310,5 @@
     return out;
   }
 
-  window.RostomDB = { enabled, baseUrl, bucket, keyLooksWrong, listProperties, listAdminProperties, getProperty, insertProperty, updateProperty, deleteProperty, signIn, signOut, isSignedIn, uploadFile, uploadFiles, publicStorageUrl };
+  window.RostomDB = { enabled, baseUrl, bucket, keyLooksWrong, listProperties, listAdminProperties, getProperty, insertProperty, updateProperty, deleteProperty, signIn, signOut, isSignedIn, refreshSession, uploadFile, uploadFiles, publicStorageUrl };
 })();
