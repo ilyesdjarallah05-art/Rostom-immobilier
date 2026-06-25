@@ -317,23 +317,56 @@ function renderCards(container, properties){
 }
 
 
+function truthyFlag(v){
+  return v === true || v === 1 || ['true','1','yes','on'].includes(String(v || '').toLowerCase());
+}
+function heroOrderValue(p){
+  const n = Number(p?.heroOrder);
+  return Number.isInteger(n) && n >= 1 && n <= 8 ? n : null;
+}
+function uniqueProperties(list){
+  const seen = new Set();
+  return list.filter(p => {
+    const key = clean(p?.id) || clean(p?.title) || JSON.stringify(p);
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 function heroSliderProperties(){
-  const items = allProperties();
+  const items = uniqueProperties(allProperties());
   const byOrder = list => [...list].sort((a,b)=>{
-    const ao = Number(a.heroOrder || 999), bo = Number(b.heroOrder || 999);
+    const ao = heroOrderValue(a) ?? 999, bo = heroOrderValue(b) ?? 999;
     if(ao !== bo) return ao - bo;
     return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
   });
   const newest = list => [...list].sort((a,b)=>new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+  const isSelected = p => p && (truthyFlag(p.heroFeatured) || truthyFlag(p.showInHero) || truthyFlag(p.homeHero));
+  const hasHeroImage = p => Boolean(firstImage(p));
 
-  // IMPORTANT: once the admin selects homepage-slider properties, show ONLY those.
-  // Do not complete the slider to 8 with random apartments/featured properties.
-  const selected = byOrder(items.filter(p => p && (p.heroFeatured || p.showInHero || p.homeHero))).slice(0,8);
-  if(selected.length) return selected;
+  const selectedRaw = byOrder(items.filter(isSelected));
 
-  // Only when nothing is selected in admin, keep a safe homepage fallback.
-  // Prefer properties with an image so the hero never becomes an empty white slide.
-  return newest(items.filter(p => firstImage(p))).slice(0,8);
+  // Admin-selected slider is now strict and predictable:
+  // property must be selected, have order 1–8, and have an image.
+  // This prevents old/empty selected rows from creating white slides.
+  const selectedWithOrderAndImage = selectedRaw.filter(p => heroOrderValue(p) && hasHeroImage(p)).slice(0,8);
+  if(selectedWithOrderAndImage.length){
+    window.__rostomHeroDebug = { mode:'admin_ordered', count:selectedWithOrderAndImage.length, selectedInDatabase:selectedRaw.length, items:selectedWithOrderAndImage.map(p=>({id:p.id,title:p.title,heroFeatured:p.heroFeatured,heroOrder:p.heroOrder,image:firstImage(p)})) };
+    return selectedWithOrderAndImage;
+  }
+
+  // If there are selected rows but no valid ordered image rows, do NOT complete to 8.
+  // Show only selected rows that actually have images.
+  if(selectedRaw.length){
+    const selectedWithImage = selectedRaw.filter(hasHeroImage).slice(0,8);
+    window.__rostomHeroDebug = { mode:'admin_selected_without_valid_order', count:selectedWithImage.length, selectedInDatabase:selectedRaw.length, items:selectedWithImage.map(p=>({id:p.id,title:p.title,heroFeatured:p.heroFeatured,heroOrder:p.heroOrder,image:firstImage(p)})) };
+    return selectedWithImage;
+  }
+
+  // Only when the admin selected nothing, use a safe fallback list with images.
+  const fallback = newest(items.filter(hasHeroImage)).slice(0,8);
+  window.__rostomHeroDebug = { mode:'fallback_no_admin_selection', count:fallback.length, selectedInDatabase:0, items:fallback.map(p=>({id:p.id,title:p.title,heroFeatured:p.heroFeatured,heroOrder:p.heroOrder,image:firstImage(p)})) };
+  return fallback;
 }
 function heroBackgroundImage(p){
   const img = firstImage(p);
