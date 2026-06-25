@@ -231,3 +231,89 @@ body::after{opacity:.12;background-size:148px 148px,148px 148px,100% 100%,100% 1
 }
 @media(max-width:380px){.brand span:last-child{max-width:160px;overflow:hidden;text-overflow:ellipsis}.property-card .prop-media{min-height:235px}.hero-property-card h1{font-size:1.45rem!important}.home-slider{min-height:400px}.detail-side{padding:18px}}
 
+
+/* v11 — tiny mobile polish: centered menu + fixed 360 badge */
+.menu-btn,
+button.menu-btn,
+.nav .menu-btn{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  line-height:1 !important;
+  vertical-align:middle !important;
+  height:40px !important;
+  min-height:40px !important;
+  padding:0 16px !important;
+  border-radius:999px !important;
+  white-space:nowrap !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+
+.property-card .prop-media{
+  position:relative !important;
+}
+
+.property-card .tour-pill,
+.prop-media .tour-pill{
+  position:absolute !important;
+  left:16px !important;
+  top:56px !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:4 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:calc(100% - 32px) !important;
+  padding:7px 11px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.94) !important;
+  color:#111 !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  box-shadow:0 10px 22px rgba(0,0,0,.10) !important;
+  font-family:Manrope,Inter,system-ui,sans-serif !important;
+  font-size:.60rem !important;
+  font-weight:850 !important;
+  letter-spacing:.08em !important;
+  line-height:1 !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+  writing-mode:horizontal-tb !important;
+  transform:none !important;
+  overflow:hidden !important;
+}
+
+@media(max-width:760px){
+  .menu-btn,
+  button.menu-btn,
+  .nav .menu-btn{
+    height:38px !important;
+    min-height:38px !important;
+    padding:0 14px !important;
+    font-size:.66rem !important;
+    line-height:1 !important;
+  }
+
+  .property-card .badge{
+    top:14px !important;
+    left:14px !important;
+    max-width:calc(100% - 28px) !important;
+  }
+
+  .property-card .tour-pill,
+  .prop-media .tour-pill{
+    top:50px !important;
+    left:14px !important;
+    bottom:auto !important;
+    right:auto !important;
+    padding:7px 10px !important;
+    font-size:.58rem !important;
+    line-height:1 !important;
+  }
+}
