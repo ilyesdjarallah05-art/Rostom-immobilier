@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rostom Immobilier — Real estate in Algeria</title>
+  <meta name="description" content="Rostom Immobilier: buy, sell and rent properties in Batna and across Algeria.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="./favicon.ico">
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" data-i18n="nav.menu">Menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a data-page="home" href="index.html" data-i18n="nav.home">Home</a></li>
+      <li><a data-page="estates.html" href="pages/estates.html" data-i18n="nav.properties">Properties</a></li>
+      <li><a data-page="houses.html" href="pages/houses.html" data-i18n="nav.houses">Houses</a></li>
+      <li><a data-page="apartments.html" href="pages/apartments.html" data-i18n="nav.apartments">Apartments</a></li>
+      <li><a data-page="contact.html" href="pages/contact.html" data-i18n="nav.contact">Contact</a></li>
+      <li class="mobile-only mobile-lang"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></li>
+    </ul>
+    <div class="nav-actions"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select><a class="btn" href="pages/contact.html" data-i18n="nav.cta">Book a visit</a></div>
+  </div>
+</nav>
+<header class="hero">
+  <div class="container hero-top">
+    <p class="eyebrow" data-i18n="hero.kicker">Batna · All Algeria</p>
+    <div class="hero-words hero-words-wide reveal">
+      <h1 class="h1">
+        <a class="hero-word hero-word-buy" href="pages/estates.html?status=sale" data-i18n="hero.buy">Buy.</a>
+        <a class="hero-word hero-word-sell" href="pages/contact.html" data-i18n="hero.sell">Sell.</a>
+        <a class="hero-word hero-word-rent" href="pages/estates.html?status=rent" data-i18n="hero.rent">Rent.</a>
+      </h1>
+    </div>
+  </div>
+  <div class="container hero-grid">
+    <div class="reveal">
+      <h2 class="title" data-i18n="hero.title">Curated properties for modern living</h2>
+      <p class="lead" data-i18n="hero.lead">A clean real estate showcase for homes, villas, apartments, land and commercial spaces across Algeria.</p>
+      <div class="hero-search">
+        <div class="field"><label data-i18n="search.status">Status</label><select id="homeStatus"><option value="" data-i18n="search.all">All</option><option value="sale" data-i18n="filter.sale">Sale</option><option value="rent" data-i18n="filter.rent">Rent</option><option value="new" data-i18n="filter.new">New project</option></select></div>
+        <div class="field"><label data-i18n="search.wilaya">Wilaya</label><select id="homeWilaya" data-filter data-wilayas data-wilaya-source="#homeCommune"><option value="" data-i18n="search.allAlgeria">All Algeria</option></select></div>
+        <div class="field"><label data-i18n="search.commune">Baladiya / area</label><select id="homeCommune"><option value="" data-i18n="search.allAreas">All areas</option></select></div>
+        <div class="field"><label data-i18n="search.query">Search</label><input id="homeSearch" type="text" data-i18n-placeholder="search.placeholder" placeholder="Batna, villa, land..."></div>
+        <button class="btn" id="homeSearchBtn" type="button" data-i18n="search.go">Search</button>
+      </div>
+      <div class="hero-cta"><a class="btn" href="pages/estates.html" data-i18n="hero.view">Explore properties</a><a class="btn-outline" href="pages/about.html" data-i18n="hero.about">About Rostom</a></div>
+    </div>
+    <div class="hero-panel reveal">
+      <div class="hero-img"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80" alt="Modern real estate interior"></div>
+      <div class="mini-info">Rostom<br>Immobilier</div>
+      <div class="floating-card"><strong data-i18n="hero.cardTitle">69 wilayas</strong><span data-i18n="hero.cardText">Wilaya and Baladiya dropdowns are ready for Algeria. Batna includes popular areas like Bouaakal and Douar Eddis too.</span></div>
+    </div>
+  </div>
+</header>
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Rostom Immobilier</span><span>Batna</span><span>Buy</span><span>Sell</span><span>Rent</span><span>Rostom Immobilier</span><span>Batna</span><span>Buy</span><span>Sell</span><span>Rent</span></div></div>
+<main>
+  <section class="section"><div class="container stats reveal"><div class="stat"><strong>180+</strong><span data-i18n="stats.properties">Properties</span></div><div class="stat"><strong>2026</strong><span>Rostom</span></div><div class="stat"><strong>69</strong><span data-i18n="stats.wilayas">Wilayas</span></div><div class="stat"><strong>24/7</strong><span data-i18n="stats.contacts">Fast contact</span></div></div></section>
+  <section class="section section-alt"><div class="container"><div class="section-head"><div><p class="eyebrow" data-i18n="section.featured.kicker">Featured properties</p><h2 class="title" data-i18n="section.featured.title">Selected listings</h2><p class="sub" data-i18n="section.featured.sub">Fresh, clean cards with useful information only. Empty fields stay hidden automatically.</p></div><a class="btn-outline" href="pages/estates.html" data-i18n="section.featured.all">View all</a></div><div class="grid" id="listingsGrid" data-featured="true" data-limit="8"></div></div></section>
+  <section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow" data-i18n="section.categories.kicker">Categories</p><h2 class="title" data-i18n="section.categories.title">Find what you need faster</h2></div></div><div class="services">
+    <a class="service reveal" href="pages/houses.html"><div><div class="icon">01</div><h3 data-i18n="cat.houses">Houses</h3><p data-i18n="cat.housesDesc">Family houses, duplexes and residential buildings.</p></div></a>
+    <a class="service reveal" href="pages/apartments.html"><div><div class="icon">02</div><h3 data-i18n="cat.apartments">Apartments</h3><p data-i18n="cat.apartmentsDesc">F2, F3, high standing, sale and rent.</p></div></a>
+    <a class="service reveal" href="pages/villas.html"><div><div class="icon">03</div><h3 data-i18n="cat.villas">Villas</h3><p data-i18n="cat.villasDesc">Premium villas, gardens, garages and large surfaces.</p></div></a>
+    <a class="service reveal" href="pages/estates.html"><div><div class="icon">04</div><h3 data-i18n="cat.estates">All properties</h3><p data-i18n="cat.estatesDesc">Land, offices, shops, projects and more.</p></div></a>
+  </div></div></section>
+  <section class="section section-alt"><div class="container split"><div class="glass reveal"><p class="eyebrow" data-i18n="section.about.kicker">Why Rostom</p><h2 class="title" data-i18n="section.about.title">Simple website. Strong trust.</h2><p class="sub" data-i18n="section.about.sub">Real estate clients usually want three things: clear photos, clear price, and an easy way to contact you.</p><ul class="check-list"><li data-i18n="about.one">No account needed for visitors.</li><li data-i18n="about.two">Filters by status, category, wilaya and baladiya.</li><li data-i18n="about.three">Each card feels modern, alive and easy to scan.</li><li data-i18n="about.four">Ready to connect later with WhatsApp, email or a real database.</li></ul></div><div class="hero-panel reveal"><div class="hero-img"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1400&q=80" alt="Minimal house"></div></div></div></section>
+  <section class="section"><div class="container"><p class="eyebrow" data-i18n="process.kicker">Process</p><h2 class="title" data-i18n="process.title">How visitors move from looking to calling</h2><div style="height:34px"></div><div class="process-grid reveal"><div class="process-card"><small>Step //01</small><h3 data-i18n="process.1">Discover needs</h3><p data-i18n="process.1d">They filter by location, type and status.</p></div><div class="process-card"><small>Step //02</small><h3 data-i18n="process.2">Explore properties</h3><p data-i18n="process.2d">They open a property and check photos/details.</p></div><div class="process-card"><small>Step //03</small><h3 data-i18n="process.3">Ask for visit</h3><p data-i18n="process.3d">They contact you without signing up.</p></div><div class="process-card"><small>Step //04</small><h3 data-i18n="process.4">Close the deal</h3><p data-i18n="process.4d">You continue the work outside the website.</p></div></div></div></section>
+</main>
+<footer class="footer">
+  <div class="container footer-grid">
+    <a class="brand" href="index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <div class="footer-links"><a href="pages/estates.html" data-i18n="nav.properties">Properties</a><a href="pages/contact.html" data-i18n="nav.contact">Contact</a></div>
+    <span data-i18n="footer.copy">© 2026 Rostom Immobilier</span>
+  </div>
+</footer>
+<script src="data.js"></script><script src="i18n.js"></script><script src="locations.js"></script><script src="supabase-config.js"></script><script src="supabase-api.js"></script><script src="script.js"></script>
+</body>
+</html>

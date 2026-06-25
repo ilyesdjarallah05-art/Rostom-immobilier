@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Rostom Immobilier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="admin-body">
+  <section class="login-screen" id="loginScreen">
+    <form class="login-box" id="loginForm">
+      <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+      <div style="height:24px"></div>
+      <select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select>
+      <div style="height:24px"></div>
+      <p class="eyebrow">Rostom</p>
+      <h1 class="title" style="font-size:2.3rem" data-i18n="admin.login">Admin login</h1>
+      <p class="note">Code: <strong>Rostom2026</strong>. Use your Supabase admin email/password to publish properties, upload photos, and add 360 virtual tours.</p>
+      <div style="height:18px"></div>
+      <div class="field"><label data-i18n="admin.code">Admin code</label><input id="adminCode" type="password" placeholder="Rostom2026"></div>
+      <div style="height:10px"></div>
+      <div class="field"><label>Admin email</label><input id="adminEmail" type="email" placeholder="admin@rostom.dz"></div>
+      <div style="height:10px"></div>
+      <div class="field"><label>Admin password</label><input id="adminPassword" type="password" placeholder="Supabase password"></div>
+      <div style="height:14px"></div>
+      <button class="btn" type="submit" style="width:100%" data-i18n="admin.enter">Enter</button>
+      <div style="height:14px"></div>
+      <a class="btn-outline" href="../index.html" style="width:100%" data-i18n="admin.back">Back to website</a>
+    </form>
+  </section>
+
+  <section class="admin-shell hidden" id="adminApp">
+    <aside class="admin-sidebar">
+      <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+      <div style="height:18px"></div>
+      <select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select>
+      <ul class="admin-menu">
+        <li><a class="active" href="#publish" data-i18n="admin.publish">Publish property</a></li>
+        <li><a href="#list" data-i18n="admin.publications">My publications</a></li>
+        <li><a href="../index.html" data-i18n="admin.viewClient">View website</a></li>
+      </ul>
+      <div style="margin-top:28px" class="note">Tip: normal photos can be JPG/PNG/WebP. 360 photos should be equirectangular panorama images, usually 2:1 ratio.</div>
+      <div style="margin-top:18px"><button class="btn-outline" id="logoutBtn" type="button" data-i18n="admin.logout">Logout</button></div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-top">
+        <div><p class="eyebrow">Rostom</p><h1 class="title" data-i18n="admin.dashboard">Dashboard</h1></div>
+        <div class="hero-cta"><button class="btn-outline" id="exportBtn" type="button" data-i18n="admin.export">Export JSON</button><label class="btn-soft" for="importFile" data-i18n="admin.import">Import JSON</label><input class="hidden" id="importFile" type="file" accept="application/json"></div>
+      </div>
+
+      <div class="stats reveal" style="margin-bottom:20px">
+        <div class="stat"><strong id="adminTotal">0</strong><span data-i18n="admin.total">Publications</span></div>
+        <div class="stat"><strong id="adminSale">0</strong><span data-i18n="admin.sale">Sales</span></div>
+        <div class="stat"><strong id="adminRent">0</strong><span data-i18n="admin.rent">Rentals</span></div>
+        <div class="stat"><strong>69</strong><span data-i18n="admin.ready">Wilayas ready</span></div><div class="stat"><strong id="adminDbStatus">...</strong><span>Database</span></div>
+      </div>
+
+      <div class="admin-grid">
+        <section class="admin-card" id="publish">
+          <h2 class="prop-title" id="publishTitle" data-i18n="admin.title">Publish a new property</h2>
+          <p class="note" data-i18n="admin.note">All fields are optional. Empty fields are hidden from visitors.</p>
+          <div style="height:18px"></div>
+          <form class="admin-form" id="propertyForm">
+            <div class="field"><label>Title</label><input name="title" type="text" placeholder="Modern villa in Batna"></div>
+            <div class="field"><label data-i18n="search.status">Status</label><select name="status"><option value="sale" data-i18n="filter.sale">Sale</option><option value="rent" data-i18n="filter.rent">Rent</option><option value="new" data-i18n="filter.new">New project</option></select></div>
+            <div class="field"><label data-i18n="filter.category">Category</label><select name="category"><option value="estates" data-i18n="cat.estates">All properties</option><option value="houses" data-i18n="cat.houses">House</option><option value="apartments" data-i18n="cat.apartments">Apartment</option><option value="villas" data-i18n="cat.villas">Villa</option><option value="land">Land</option><option value="offices">Office</option><option value="commercial">Commercial</option></select></div>
+            <div class="field"><label data-i18n="search.wilaya">Wilaya</label><select name="wilaya" id="adminWilaya" data-wilayas data-wilaya-source="#adminCommuneList"><option value="">Choose wilaya</option></select></div>
+            <div class="field"><label data-i18n="search.commune">Baladiya / area</label><input name="commune" list="adminCommuneList" placeholder="Batna, Bouaakal, Arris..."><datalist id="adminCommuneList"></datalist></div>
+            <div class="field"><label data-i18n="detail.address">Address</label><input name="address" type="text" placeholder="Short address"></div>
+            <div class="field"><label data-i18n="detail.price">Price</label><input name="price" type="number" min="0" placeholder="95000000"></div>
+            <div class="field"><label>Currency</label><input name="currency" type="text" value="DZD"></div>
+            <div class="field"><label data-i18n="detail.surface">Built area</label><input name="surface" type="number" min="0" placeholder="220"></div>
+            <div class="field"><label data-i18n="detail.land">Land area</label><input name="landSurface" type="number" min="0" placeholder="500"></div>
+            <div class="field"><label data-i18n="detail.rooms">Rooms</label><input name="rooms" type="text" placeholder="5"></div>
+            <div class="field"><label data-i18n="detail.bedrooms">Bedrooms</label><input name="bedrooms" type="text" placeholder="3"></div>
+            <div class="field"><label data-i18n="detail.bathrooms">Bathrooms</label><input name="bathrooms" type="text" placeholder="2"></div>
+            <div class="field"><label data-i18n="detail.floor">Floor</label><input name="floor" type="text" placeholder="R+1 / 4th"></div>
+            <div class="field"><label data-i18n="detail.year">Year</label><input name="yearBuilt" type="text" placeholder="2024"></div>
+            <div class="field"><label data-i18n="detail.phone">Phone</label><input name="phone" type="tel" placeholder="+213..."></div>
+            <div class="field full"><label>Photos</label><input id="images" name="images" type="file" accept="image/*" multiple></div>
+            <div class="field full"><div id="existingImages" class="media-manager"></div></div>
+            <div class="field full admin-subsection"><h3 data-i18n="admin.tourTitle">360 virtual tour</h3><p class="note" data-i18n="admin.tourNote">Optional. Upload equirectangular 360 panorama photos, then write room names line by line.</p></div>
+            <div class="field full"><label data-i18n="admin.tourImages">360 panorama photos</label><input id="tourImages" name="tourImages" type="file" accept="image/*" multiple></div>
+            <div class="field full"><label data-i18n="admin.tourRooms">Room names</label><textarea name="tourRooms" rows="3" data-i18n-placeholder="admin.tourRoomsPlaceholder" placeholder="Salon / Kitchen / Bedroom"></textarea></div>
+            <div class="field full"><label data-i18n="admin.tourUrl">External 360 tour link</label><input name="virtualTourUrl" type="url" placeholder="https://..."></div>
+            <div class="field full">
+              <div class="tour-builder" id="tourBuilder">
+                <div class="tour-builder-head">
+                  <div>
+                    <h3 data-i18n="admin.hotspotsTitle">360 rooms & hotspots builder</h3>
+                    <p class="note" data-i18n="admin.hotspotsHelp">Add rooms, open a panorama, click inside it to place a hotspot, then choose the target room.</p>
+                  </div>
+                  <button class="btn-soft" id="addTourRoomBtn" type="button" data-i18n="admin.addRoom">Add room</button>
+                </div>
+                <div class="tour-room-editor-grid" id="tourRoomEditorGrid"></div>
+                <div class="hotspot-editor hidden" id="hotspotEditor">
+                  <div class="hotspot-editor-head">
+                    <div>
+                      <p class="eyebrow">360</p>
+                      <h3 id="hotspotRoomTitle">Room</h3>
+                      <p class="note" data-i18n="admin.clickPanorama">Click inside the 360 viewer to select the hotspot position.</p>
+                    </div>
+                    <button class="btn-outline" id="closeHotspotEditor" type="button" data-i18n="admin.closeEditor">Close editor</button>
+                  </div>
+                  <div class="hotspot-layout">
+                    <div class="admin-pano-wrap"><div id="adminTourViewer" class="admin-tour-viewer"></div></div>
+                    <div class="hotspot-side">
+                      <div class="field"><label data-i18n="admin.hotspotLabel">Hotspot label</label><input id="hotspotLabel" type="text" placeholder="Kitchen door"></div>
+                      <div class="field"><label data-i18n="admin.targetRoom">Target room</label><select id="hotspotTargetRoom"></select></div>
+                      <div class="hotspot-coords"><span data-i18n="admin.selectedPoint">Selected point</span><strong id="hotspotCoords">—</strong></div>
+                      <button class="btn" id="addHotspotBtn" type="button" data-i18n="admin.addHotspot">Add hotspot</button>
+                      <div class="hotspot-list" id="hotspotList"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field full"><label data-i18n="detail.description">Description</label><textarea name="description" rows="5" placeholder="Property description..."></textarea></div>
+            <div class="field full"><label data-i18n="detail.features">Features</label><textarea name="features" rows="3" placeholder="Garage, Garden, Heating... separate with comma or new line"></textarea></div>
+            <label class="field full" style="display:flex;flex-direction:row;align-items:center"><input name="featured" type="checkbox" style="width:auto"> <span data-i18n="admin.featured">Show in featured properties</span></label>
+            <button class="btn-outline full hidden" id="cancelEditBtn" type="button" data-i18n="admin.cancelEdit">Cancel edit</button>
+            <button class="btn full" type="submit" data-i18n="admin.submit">Publish property</button>
+          </form>
+        </section>
+
+        <section class="admin-card" id="list">
+          <h2 class="prop-title" data-i18n="admin.publications">My publications</h2>
+          <p class="note" data-i18n="admin.listNote">Here you see only properties added from this browser.</p>
+          <div style="height:18px"></div>
+          <div class="admin-list" id="adminList"></div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script><script src="../data.js"></script><script src="../i18n.js"></script><script src="../locations.js"></script><script src="../supabase-config.js"></script><script src="../supabase-api.js"></script><script src="../script.js"></script>
+</body>
+</html>

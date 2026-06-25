@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Rostom Immobilier</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet"><link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../style.css"></head><body>
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" data-i18n="nav.menu">Menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a data-page="home" href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a data-page="estates.html" href="../pages/estates.html" data-i18n="nav.properties">Properties</a></li>
+      <li><a data-page="houses.html" href="../pages/houses.html" data-i18n="nav.houses">Houses</a></li>
+      <li><a data-page="apartments.html" href="../pages/apartments.html" data-i18n="nav.apartments">Apartments</a></li>
+      <li><a data-page="contact.html" href="../pages/contact.html" data-i18n="nav.contact">Contact</a></li>
+      <li class="mobile-only mobile-lang"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></li>
+    </ul>
+    <div class="nav-actions"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select><a class="btn" href="../pages/contact.html" data-i18n="nav.cta">Book a visit</a></div>
+  </div>
+</nav>
+<header class="page-hero"><div class="container"><p class="breadcrumbs"><a href="../index.html" data-i18n="breadcrumb.home">Home</a> / <span data-i18n="page.properties.title">Properties</span></p><p class="eyebrow">Rostom Immobilier</p><h1 class="title" data-i18n="page.properties.title">All properties</h1><p class="sub" data-i18n="page.properties.sub">Filter quickly by status, category, wilaya and baladiya.</p></div></header>
+<main class="section"><div class="container"><div class="filters-panel"><div class="field"><label data-i18n="search.query">Search</label><input data-filter id="searchText" type="text" data-i18n-placeholder="filter.searchPlaceholder" placeholder="Title, city, keyword..."></div><div class="field"><label data-i18n="search.status">Status</label><select data-filter id="filterStatus"><option value="" data-i18n="search.all">All</option><option value="sale" data-i18n="filter.sale">Sale</option><option value="rent" data-i18n="filter.rent">Rent</option><option value="new" data-i18n="filter.new">New project</option></select></div><div class="field"><label data-i18n="filter.category">Category</label><select data-filter id="filterCategory"><option value="" data-i18n="filter.allCat">All categories</option><option value="houses" data-i18n="cat.houses">Houses</option><option value="apartments" data-i18n="cat.apartments">Apartments</option><option value="villas" data-i18n="cat.villas">Villas</option><option value="land">Land</option><option value="offices">Offices</option><option value="commercial">Commercial</option></select></div><div class="field"><label data-i18n="search.wilaya">Wilaya</label><select data-filter id="filterWilaya" data-wilayas data-wilaya-source="#filterCommune"><option value="" data-i18n="search.allAlgeria">All Algeria</option></select></div><div class="field"><label data-i18n="search.commune">Baladiya / area</label><select data-filter id="filterCommune"><option value="" data-i18n="search.allAreas">All areas</option></select></div><div class="field"><label data-i18n="filter.quick">Quick</label><div class="chips" id="quickChips"><button class="chip active" data-status="" type="button" data-i18n="search.all">All</button><button class="chip" data-status="sale" type="button" data-i18n="filter.sale">Sale</button><button class="chip" data-status="rent" type="button" data-i18n="filter.rent">Rent</button></div></div></div><div class="grid" id="listingsGrid"></div></div></main>
+<footer class="footer">
+  <div class="container footer-grid">
+    <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <div class="footer-links"><a href="../pages/estates.html" data-i18n="nav.properties">Properties</a><a href="../pages/contact.html" data-i18n="nav.contact">Contact</a></div>
+    <span data-i18n="footer.copy">© 2026 Rostom Immobilier</span>
+  </div>
+</footer><script src="../data.js"></script><script src="../i18n.js"></script><script src="../locations.js"></script><script src="../supabase-config.js"></script><script src="../supabase-api.js"></script><script src="../script.js"></script></body></html>

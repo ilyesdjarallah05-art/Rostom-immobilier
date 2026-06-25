@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contact — Rostom Immobilier</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet"><link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../style.css"></head><body>
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" data-i18n="nav.menu">Menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a data-page="home" href="../index.html" data-i18n="nav.home">Home</a></li>
+      <li><a data-page="estates.html" href="../pages/estates.html" data-i18n="nav.properties">Properties</a></li>
+      <li><a data-page="houses.html" href="../pages/houses.html" data-i18n="nav.houses">Houses</a></li>
+      <li><a data-page="apartments.html" href="../pages/apartments.html" data-i18n="nav.apartments">Apartments</a></li>
+      <li><a data-page="contact.html" href="../pages/contact.html" data-i18n="nav.contact">Contact</a></li>
+      <li class="mobile-only mobile-lang"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></li>
+    </ul>
+    <div class="nav-actions"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select><a class="btn" href="../pages/contact.html" data-i18n="nav.cta">Book a visit</a></div>
+  </div>
+</nav>
+<header class="page-hero"><div class="container"><p class="breadcrumbs"><a href="../index.html" data-i18n="breadcrumb.home">Home</a> / <span data-i18n="breadcrumb.contact">Contact</span></p><p class="eyebrow" data-i18n="nav.contact">Contact</p><h1 class="title" data-i18n="page.contact.title">Tell us what you need.</h1><p class="sub" data-i18n="page.contact.sub">Call, WhatsApp, or send a simple request.</p></div></header>
+<main class="section"><div class="container contact-grid"><div class="contact-card reveal"><p class="eyebrow" data-i18n="contact.office">Rostom Immobilier</p><h2 class="prop-title" data-i18n="contact.location">Batna, Algeria</h2><p class="sub">Phone: +213 555 000 000<br>Email: contact@rostom-immo.dz<br><span data-i18n="contact.hours">Saturday - Thursday, 9:00 - 18:00</span></p><div class="hero-cta"><a class="btn" href="tel:+213555000000" data-i18n="contact.call">Call</a><a class="btn-outline" href="https://wa.me/213555000000" data-i18n="contact.whatsapp">WhatsApp</a></div></div><form class="contact-card form-grid reveal" id="contactForm"><div class="field"><label data-i18n="contact.name">Name</label><input type="text" placeholder="Rostom"></div><div class="field"><label data-i18n="contact.phone">Phone</label><input type="tel" placeholder="+213..."></div><div class="field full"><label data-i18n="contact.subject">Subject</label><select><option data-i18n="contact.buy">Buy a property</option><option data-i18n="contact.rent">Rent a property</option><option data-i18n="contact.sell">Sell my property</option><option data-i18n="contact.visit">Ask for visit</option></select></div><div class="field full"><label data-i18n="contact.message">Message</label><textarea rows="6" data-i18n-placeholder="contact.placeholder" placeholder="Explain your need..."></textarea></div><button class="btn full" type="submit" data-i18n="contact.send">Send request</button></form></div></main>
+<footer class="footer">
+  <div class="container footer-grid">
+    <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
+    <div class="footer-links"><a href="../pages/estates.html" data-i18n="nav.properties">Properties</a><a href="../pages/contact.html" data-i18n="nav.contact">Contact</a></div>
+    <span data-i18n="footer.copy">© 2026 Rostom Immobilier</span>
+  </div>
+</footer><script src="../data.js"></script><script src="../i18n.js"></script><script src="../locations.js"></script><script src="../supabase-config.js"></script><script src="../supabase-api.js"></script><script src="../script.js"></script></body></html>
