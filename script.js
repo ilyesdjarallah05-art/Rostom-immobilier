@@ -578,13 +578,10 @@ function initPropertyDetail(){
   ].filter(([,v])=>clean(v)).map(([k,v])=>`<div class="detail-item"><small>${safeText(k)}</small><strong>${safeText(v)}</strong></div>`).join('');
   const features = (p.features || []).filter(Boolean).map(f=>`<li>${safeText(f)}</li>`).join('');
   const virtualTour = buildVirtualTourSection(p);
-  wrap.innerHTML = `<div class="detail-grid">
-    <div>
+  wrap.innerHTML = `<div class="detail-grid detail-grid-v10">
+    <section class="detail-media-col">
       ${buildPropertyGallery(p)}
-      ${virtualTour}
-      ${p.description ? `<div class="glass info-block"><h2 class="prop-title">${safeText(t('detail.description'))}</h2><p class="sub">${safeText(p.description)}</p></div>` : ''}
-      ${features ? `<div class="glass info-block"><h2 class="prop-title">${safeText(t('detail.features'))}</h2><ul class="check-list">${features}</ul></div>` : ''}
-    </div>
+    </section>
     <aside class="detail-side glass">
       <p class="eyebrow">${safeText(statusTypeLabel(p))}</p>
       <h1 class="title">${safeText(p.title || 'Property')}</h1>
@@ -593,6 +590,11 @@ function initPropertyDetail(){
       <div class="detail-list">${details}</div>
       <div class="hero-cta"><a class="btn" href="${ROOT}pages/contact.html">${safeText(t('detail.visit'))}</a>${p.phone ? `<a class="btn-outline" href="tel:${safeText(p.phone)}">${safeText(t('detail.call'))}</a>` : ''}</div>
     </aside>
+    <section class="detail-info-col">
+      ${p.description ? `<div class="glass info-block"><h2 class="prop-title">${safeText(t('detail.description'))}</h2><p class="sub">${safeText(p.description)}</p></div>` : ''}
+      ${features ? `<div class="glass info-block"><h2 class="prop-title">${safeText(t('detail.features'))}</h2><ul class="check-list">${features}</ul></div>` : ''}
+    </section>
+    ${virtualTour ? `<section class="detail-tour-col">${virtualTour}</section>` : ''}
   </div>`;
   initPropertyGallery(extractImageList([p.images, p.image, p.mainImage, p.coverImage, p.photo, p.photos, p.gallery]));
   initVirtualTour(p);
