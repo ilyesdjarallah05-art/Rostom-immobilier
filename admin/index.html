@@ -16,7 +16,7 @@
     <form class="login-box" id="loginForm">
       <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
       <div style="height:24px"></div>
-      <select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select>
+      <label class="language-switcher"><span class="language-globe" aria-hidden="true">🌐</span><select class="language-select" aria-label="Language" data-i18n-aria-label="nav.lang"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></label>
       <div style="height:24px"></div>
       <p class="eyebrow">Rostom</p>
       <h1 class="title" style="font-size:2.3rem" data-i18n="admin.login">Admin login</h1>
@@ -38,7 +38,7 @@
     <aside class="admin-sidebar">
       <a class="brand" href="../index.html"><span class="brand-mark">R</span><span>Rostom Immobilier</span></a>
       <div style="height:18px"></div>
-      <select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select>
+      <label class="language-switcher"><span class="language-globe" aria-hidden="true">🌐</span><select class="language-select" aria-label="Language" data-i18n-aria-label="nav.lang"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></label>
       <ul class="admin-menu">
         <li><a class="active" href="#publish" data-i18n="admin.publish">Publish property</a></li>
         <li><a href="#list" data-i18n="admin.publications">My publications</a></li>
@@ -58,7 +58,7 @@
         <div class="stat"><strong id="adminTotal">0</strong><span data-i18n="admin.total">Publications</span></div>
         <div class="stat"><strong id="adminSale">0</strong><span data-i18n="admin.sale">Sales</span></div>
         <div class="stat"><strong id="adminRent">0</strong><span data-i18n="admin.rent">Rentals</span></div>
-        <div class="stat"><strong>69</strong><span data-i18n="admin.ready">Wilayas ready</span></div><div class="stat"><strong id="adminDbStatus">...</strong><span>Database</span></div>
+        <div class="stat"><strong>69</strong><span data-i18n="admin.ready">Wilayas ready</span></div><div class="stat"><strong id="adminDbStatus">...</strong><span data-i18n="admin.database">Database</span></div>
       </div>
 
       <div class="admin-grid">
@@ -69,7 +69,7 @@
           <form class="admin-form" id="propertyForm">
             <div class="field"><label>Title</label><input name="title" type="text" placeholder="Modern villa in Batna"></div>
             <div class="field"><label data-i18n="search.status">Status</label><select name="status"><option value="sale" data-i18n="filter.sale">Sale</option><option value="rent" data-i18n="filter.rent">Rent</option><option value="new" data-i18n="filter.new">New project</option></select></div>
-            <div class="field"><label data-i18n="filter.category">Category</label><select name="category"><option value="estates" data-i18n="cat.estates">All properties</option><option value="houses" data-i18n="cat.houses">House</option><option value="apartments" data-i18n="cat.apartments">Apartment</option><option value="villas" data-i18n="cat.villas">Villa</option><option value="land">Land</option><option value="offices">Office</option><option value="commercial">Commercial</option></select></div>
+            <div class="field"><label data-i18n="filter.category">Category</label><select name="category"><option value="estates" data-i18n="cat.estates">All properties</option><option value="houses" data-i18n="cat.houses">House</option><option value="apartments" data-i18n="cat.apartments">Apartment</option><option value="villas" data-i18n="cat.villas">Villa</option><option value="land" data-i18n="cat.land">Land</option><option value="offices" data-i18n="cat.offices">Office</option><option value="commercial" data-i18n="cat.commercial">Commercial</option></select></div>
             <div class="field"><label data-i18n="search.wilaya">Wilaya</label><select name="wilaya" id="adminWilaya" data-wilayas data-wilaya-source="#adminCommuneList"><option value="">Choose wilaya</option></select></div>
             <div class="field"><label data-i18n="search.commune">Baladiya / area</label><input name="commune" list="adminCommuneList" placeholder="Batna, Bouaakal, Arris..."><datalist id="adminCommuneList"></datalist></div>
             <div class="field"><label data-i18n="detail.address">Address</label><input name="address" type="text" placeholder="Short address"></div>
@@ -124,8 +124,8 @@
             <div class="field full"><label data-i18n="detail.description">Description</label><textarea name="description" rows="5" placeholder="Property description..."></textarea></div>
             <div class="field full"><label data-i18n="detail.features">Features</label><textarea name="features" rows="3" placeholder="Garage, Garden, Heating... separate with comma or new line"></textarea></div>
             <label class="field full" style="display:flex;flex-direction:row;align-items:center"><input name="featured" type="checkbox" style="width:auto"> <span data-i18n="admin.featured">Show in featured properties</span></label>
-            <label class="field full admin-check-row"><input name="heroFeatured" type="checkbox" style="width:auto"> <span data-home-i18n="admin.heroFeatured">Show in homepage top slider</span></label>
-            <div class="field"><label data-home-i18n="admin.heroOrder">Top slider order (1–8)</label><input name="heroOrder" type="number" min="1" max="8" placeholder="1"></div>
+            <label class="field full admin-check-row"><input name="heroFeatured" type="checkbox" style="width:auto"> <span data-i18n="admin.heroFeatured">Show in homepage top slider</span></label>
+            <div class="field"><label data-i18n="admin.heroOrder">Top slider order (1–8)</label><input name="heroOrder" type="number" min="1" max="8" placeholder="1"></div>
             <button class="btn-outline full hidden" id="cancelEditBtn" type="button" data-i18n="admin.cancelEdit">Cancel edit</button>
             <button class="btn full" type="submit" data-i18n="admin.submit">Publish property</button>
           </form>

@@ -137,7 +137,7 @@
       heroFeatured: Boolean(row.hero_featured),
       heroOrder: row.hero_order ?? '',
       isPublished: row.is_published !== false,
-      hasVirtualTour: Boolean(row.virtual_tour_url || rooms.length),
+      hasVirtualTour: Boolean(row.has_virtual_tour === true || row.has_virtual_tour === 1 || String(row.has_virtual_tour || '').toLowerCase() === 'true' || row.virtual_tour_url || rooms.length),
       virtualTourType: row.virtual_tour_type || (rooms.length ? 'pannellum' : 'embed'),
       virtualTourUrl: row.virtual_tour_url || '',
       virtualTourRooms: rooms,
@@ -244,7 +244,7 @@
     'id','title','category','status','wilaya','commune','address','price','currency',
     'surface','land_surface','rooms','bedrooms','bathrooms','floor','year_built','phone',
     'description','features','images','featured','hero_featured','hero_order','is_published','has_virtual_tour',
-    'virtual_tour_type','virtual_tour_url','created_at'
+    'virtual_tour_type','virtual_tour_url','virtual_tour_rooms','created_at'
   ].join(',');
 
   async function listProperties(options={}){

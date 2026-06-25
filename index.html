@@ -20,9 +20,9 @@
       <li><a data-page="houses.html" href="pages/houses.html" data-i18n="nav.houses">Houses</a></li>
       <li><a data-page="apartments.html" href="pages/apartments.html" data-i18n="nav.apartments">Apartments</a></li>
       <li><a data-page="contact.html" href="pages/contact.html" data-i18n="nav.contact">Contact</a></li>
-      <li class="mobile-only mobile-lang"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></li>
+      <li class="mobile-only mobile-lang"><label class="language-switcher"><span class="language-globe" aria-hidden="true">🌐</span><select class="language-select" aria-label="Language" data-i18n-aria-label="nav.lang"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></label></li>
     </ul>
-    <div class="nav-actions"><select class="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select><a class="btn" href="pages/contact.html" data-i18n="nav.cta">Book a visit</a></div>
+    <div class="nav-actions"><label class="language-switcher"><span class="language-globe" aria-hidden="true">🌐</span><select class="language-select" aria-label="Language" data-i18n-aria-label="nav.lang"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option></select></label><a class="btn" href="pages/contact.html" data-i18n="nav.cta">Book a visit</a></div>
   </div>
 </nav>
 <header class="home-showcase" id="homeHero" aria-label="Top properties">
@@ -33,31 +33,81 @@
   <div class="container hero-search-wrap">
     <div class="home-search-bar reveal">
       <div class="hero-filter hero-filter-keyword">
-        <label data-home-i18n="search.keyword">Keyword</label>
-        <div class="filter-control"><input id="homeSearch" type="text" data-home-i18n-placeholder="search.placeholder" data-i18n-placeholder="search.placeholder" placeholder="Search by keyword"><span class="filter-icon">⌕</span></div>
+        <label data-i18n="search.keyword">Keyword</label>
+        <div class="filter-control"><input id="homeSearch" type="text" data-i18n-placeholder="search.placeholder" placeholder="Search by keyword"><span class="filter-icon">⌕</span></div>
       </div>
       <div class="hero-filter">
-        <label data-home-i18n="search.offerType">Offer Type</label>
+        <label data-i18n="search.offerType">Offer Type</label>
         <select id="homeStatus"><option value="" data-i18n="search.all">All</option><option value="sale" data-i18n="filter.sale">Sale</option><option value="rent" data-i18n="filter.rent">Rent</option><option value="new" data-i18n="filter.new">New project</option></select>
       </div>
       <div class="hero-filter">
-        <label data-home-i18n="search.type">Type</label>
-        <select id="homeCategory"><option value="" data-home-i18n="search.allTypes">All types</option><option value="villas" data-i18n="cat.villas">Villas</option><option value="apartments" data-i18n="cat.apartments">Apartments</option><option value="houses" data-i18n="cat.houses">Houses</option><option value="land" data-home-i18n="cat.land">Land</option><option value="offices" data-home-i18n="cat.offices">Offices</option><option value="commercial" data-home-i18n="cat.commercial">Commercial</option></select>
+        <label data-i18n="search.type">Type</label>
+        <select id="homeCategory"><option value="" data-i18n="search.allTypes">All types</option><option value="villas" data-i18n="cat.villas">Villas</option><option value="apartments" data-i18n="cat.apartments">Apartments</option><option value="houses" data-i18n="cat.houses">Houses</option><option value="land" data-i18n="cat.land">Land</option><option value="offices" data-i18n="cat.offices">Offices</option><option value="commercial" data-i18n="cat.commercial">Commercial</option></select>
       </div>
       <div class="hero-filter">
-        <label data-home-i18n="search.state">State</label>
+        <label data-i18n="search.state">State</label>
         <select id="homeWilaya" data-wilayas><option value="" data-i18n="search.allAlgeria">All Algeria</option></select>
       </div>
       <div class="hero-filter">
-        <label data-home-i18n="search.price">Price</label>
-        <select id="homePrice"><option value="" data-home-i18n="search.anyPrice">Any price</option><option value="10000000">≤ 10M DZD</option><option value="50000000">≤ 50M DZD</option><option value="100000000">≤ 100M DZD</option><option value="200000000">≤ 200M DZD</option></select>
+        <label data-i18n="search.price">Price</label>
+        <select id="homePrice"><option value="" data-i18n="search.anyPrice">Any price</option><option value="10000000">≤ 10M DZD</option><option value="50000000">≤ 50M DZD</option><option value="100000000">≤ 100M DZD</option><option value="200000000">≤ 200M DZD</option></select>
       </div>
       <button class="btn hero-search-btn" id="homeSearchBtn" type="button" data-i18n="search.go">Search</button>
     </div>
   </div>
 </header>
 <main>
-  <section class="section section-alt must-see-section"><div class="container"><div class="section-head centered"><div><p class="eyebrow" data-i18n="section.featured.kicker">Featured properties</p><h2 class="title" data-home-i18n="section.mustSee.title">Must-See Properties</h2><p class="sub" data-home-i18n="section.mustSee.sub">Explore the most sought-after properties, carefully selected for you.</p></div><a class="btn-outline" href="pages/estates.html" data-i18n="section.featured.all">View all</a></div><div class="grid" id="listingsGrid" data-featured="true" data-limit="8"></div></div></section>
+  <section class="section section-alt must-see-section"><div class="container"><div class="section-head centered"><div><p class="eyebrow" data-i18n="section.featured.kicker">Featured properties</p><h2 class="title" data-i18n="section.mustSee.title">Must-See Properties</h2><p class="sub" data-i18n="section.mustSee.sub">Explore the most sought-after properties, carefully selected for you.</p></div><a class="btn-outline" href="pages/estates.html" data-i18n="section.featured.all">View all</a></div><div class="grid" id="listingsGrid" data-featured="true" data-limit="8"></div></div></section>
+
+
+  <section class="section home-latest-section" id="homeLatestProperties">
+    <div class="container">
+      <div class="section-head centered latest-head reveal">
+        <div>
+          <p class="eyebrow" data-i18n="home.latest.kicker">Latest properties</p>
+          <h2 class="title" data-i18n="home.latest.title">Explore our latest properties</h2>
+          <p class="sub" data-i18n="home.latest.sub">Discover a selection of our latest available properties.</p>
+        </div>
+      </div>
+      <div class="latest-showcase-grid reveal" id="latestPropertyShowcase"></div>
+    </div>
+  </section>
+
+  <section class="section home-handpicked-section" id="homeHandpicked">
+    <div class="container">
+      <div class="section-head centered handpicked-head reveal">
+        <div>
+          <p class="eyebrow" data-i18n="home.handpicked.kicker">Selected for you</p>
+          <h2 class="title" data-i18n="home.handpicked.title">Discover our handpicked properties</h2>
+          <p class="sub" data-i18n="home.handpicked.sub">A carefully selected collection to meet your real estate expectations. Scroll to explore the best deals.</p>
+        </div>
+      </div>
+      <div class="handpicked-shell reveal">
+        <button class="handpicked-nav handpicked-prev" type="button" aria-label="Previous properties" data-handpicked-scroll="prev">‹</button>
+        <div class="handpicked-track" id="handpickedPropertiesTrack"></div>
+        <button class="handpicked-nav handpicked-next" type="button" aria-label="Next properties" data-handpicked-scroll="next">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-about-modern-section" id="homeAboutModern">
+    <div class="container about-modern-grid reveal">
+      <div class="about-modern-visual" aria-hidden="true">
+        <div class="about-building-mark"><span>R</span><i></i><i></i><i></i></div>
+      </div>
+      <div class="about-modern-copy">
+        <p class="eyebrow" data-i18n="home.about.kicker">About us</p>
+        <h2 class="title"><span data-i18n="home.about.titleA">About</span> <em>Rostom Immobilier</em></h2>
+        <p class="sub" data-i18n="home.about.sub">Rostom Immobilier helps clients in Algeria find clear, verified and well-presented properties with fast contact, modern browsing and simple guidance.</p>
+        <div class="about-modern-points">
+          <span data-i18n="home.about.point1">Clean property cards</span>
+          <span data-i18n="home.about.point2">Fast filtering</span>
+          <span data-i18n="home.about.point3">360° tours when available</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section"><div class="container stats reveal"><div class="stat"><strong>180+</strong><span data-i18n="stats.properties">Properties</span></div><div class="stat"><strong>2026</strong><span>Rostom</span></div><div class="stat"><strong>69</strong><span data-i18n="stats.wilayas">Wilayas</span></div><div class="stat"><strong>24/7</strong><span data-i18n="stats.contacts">Fast contact</span></div></div></section>
   <section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow" data-i18n="section.categories.kicker">Categories</p><h2 class="title" data-i18n="section.categories.title">Find what you need faster</h2></div></div><div class="services">
     <a class="service reveal" href="pages/houses.html"><div><div class="icon">01</div><h3 data-i18n="cat.houses">Houses</h3><p data-i18n="cat.housesDesc">Family houses, duplexes and residential buildings.</p></div></a>
@@ -67,6 +117,109 @@
   </div></div></section>
   <section class="section section-alt"><div class="container split"><div class="glass reveal"><p class="eyebrow" data-i18n="section.about.kicker">Why Rostom</p><h2 class="title" data-i18n="section.about.title">Simple website. Strong trust.</h2><p class="sub" data-i18n="section.about.sub">Real estate clients usually want three things: clear photos, clear price, and an easy way to contact you.</p><ul class="check-list"><li data-i18n="about.one">No account needed for visitors.</li><li data-i18n="about.two">Filters by status, category, wilaya and baladiya.</li><li data-i18n="about.three">Each card feels modern, alive and easy to scan.</li><li data-i18n="about.four">Ready to connect later with WhatsApp, email or a real database.</li></ul></div><div class="hero-panel reveal"><div class="hero-img"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1400&q=80" alt="Minimal house"></div></div></div></section>
   <section class="section"><div class="container"><p class="eyebrow" data-i18n="process.kicker">Process</p><h2 class="title" data-i18n="process.title">How visitors move from looking to calling</h2><div style="height:34px"></div><div class="process-grid reveal"><div class="process-card"><small>Step //01</small><h3 data-i18n="process.1">Discover needs</h3><p data-i18n="process.1d">They filter by location, type and status.</p></div><div class="process-card"><small>Step //02</small><h3 data-i18n="process.2">Explore properties</h3><p data-i18n="process.2d">They open a property and check photos/details.</p></div><div class="process-card"><small>Step //03</small><h3 data-i18n="process.3">Ask for visit</h3><p data-i18n="process.3d">They contact you without signing up.</p></div><div class="process-card"><small>Step //04</small><h3 data-i18n="process.4">Close the deal</h3><p data-i18n="process.4d">You continue the work outside the website.</p></div></div></div></section>
+
+
+  <section class="section home-cities-section" id="homeCities">
+    <div class="container">
+      <div class="section-head centered home-cities-head reveal">
+        <div>
+          <p class="eyebrow" data-i18n="home.cities.kicker">Popular cities</p>
+          <h2 class="title" data-i18n="home.cities.title">Find properties in these cities</h2>
+          <p class="sub" data-i18n="home.cities.sub">Explore properties in the main locations we serve. Choose a city and start browsing.</p>
+        </div>
+      </div>
+      <div class="cities-shell reveal" aria-label="Popular cities">
+        <button class="city-nav city-prev" type="button" aria-label="Previous cities" data-city-scroll="prev">‹</button>
+        <div class="city-track" id="cityTrack">
+          <a class="city-card" href="pages/estates.html?wilaya=16" data-city-keys="16|alger|algiers">
+            <img src="https://images.unsplash.com/photo-1595934734818-2593d9bad45e?w=900&q=72" alt="Alger">
+            <span class="city-shade"></span>
+            <strong>Alger</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=05" data-city-keys="05|batna">
+            <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=900&q=72" alt="Batna">
+            <span class="city-shade"></span>
+            <strong>Batna</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=04" data-city-keys="04|oum el bouaghi|oum el bouaghi">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=72" alt="Oum El Bouaghi">
+            <span class="city-shade"></span>
+            <strong>Oum El Bouaghi</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=42" data-city-keys="42|tipaza">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&q=72" alt="Tipaza">
+            <span class="city-shade"></span>
+            <strong>Tipaza</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=35" data-city-keys="35|boumerdes|boumerdès">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=72" alt="Boumerdès">
+            <span class="city-shade"></span>
+            <strong>Boumerdès</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=09" data-city-keys="09|blida">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=72" alt="Blida">
+            <span class="city-shade"></span>
+            <strong>Blida</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+          <a class="city-card" href="pages/estates.html?wilaya=15" data-city-keys="15|tizi ouzou">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=72" alt="Tizi Ouzou">
+            <span class="city-shade"></span>
+            <strong>Tizi Ouzou</strong>
+            <small><span data-city-count>0</span> <span data-i18n="home.cities.properties">Properties</span></small>
+          </a>
+        </div>
+        <button class="city-nav city-next" type="button" aria-label="Next cities" data-city-scroll="next">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-why-section">
+    <div class="container">
+      <div class="section-head centered reveal">
+        <div>
+          <p class="eyebrow" data-i18n="home.why.kicker">Why choose us</p>
+          <h2 class="title" data-i18n="home.why.title">Why choose Rostom Immobilier?</h2>
+        </div>
+      </div>
+      <div class="why-mini-grid reveal">
+        <article class="why-mini-card">
+          <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 7h19l6 6v28H12z"/><path d="M31 7v7h7M18 18h14M18 25h10"/><path d="M27 34l5-5 5 5v7H27z"/></svg></span>
+          <h3 data-i18n="home.why.trust.title">Trusted expertise</h3>
+          <p data-i18n="home.why.trust.sub">Clear guidance to connect buyers, renters and owners with confidence.</p>
+        </article>
+        <article class="why-mini-card">
+          <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 24c0-8 6-15 14-15s14 7 14 15v10a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5z"/><path d="M18 30h12"/></svg></span>
+          <h3 data-i18n="home.why.offer.title">A diverse offer</h3>
+          <p data-i18n="home.why.offer.sub">Houses, apartments, villas, land and more options for every need.</p>
+        </article>
+        <article class="why-mini-card">
+          <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 6l14 5v10c0 10-6 17-14 21-8-4-14-11-14-21V11z"/><path d="M18 24l4 4 8-9"/></svg></span>
+          <h3 data-i18n="home.why.personal.title">Personalized experience</h3>
+          <p data-i18n="home.why.personal.sub">Simple tools, useful filters and direct contact for faster decisions.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-bottom-section">
+    <div class="container home-bottom-card reveal">
+      <div class="home-bottom-copy">
+        <p class="eyebrow" data-i18n="home.bottom.kicker">Need help choosing?</p>
+        <h2 class="title" data-i18n="home.bottom.title">Tell us what you need.</h2>
+        <p class="sub" data-i18n="home.bottom.sub">Share your budget, location and property type. Rostom Immobilier will guide you to the right option with a clean, direct process.</p>
+      </div>
+      <div class="home-bottom-actions">
+        <a class="btn" href="pages/contact.html" data-i18n="home.bottom.primary">Contact us</a>
+        <a class="btn-outline" href="pages/estates.html" data-i18n="home.bottom.secondary">Browse properties</a>
+      </div>
+    </div>
+  </section>
 </main>
 <footer class="footer">
   <div class="container footer-grid">
